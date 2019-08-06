@@ -3,7 +3,6 @@ const router = express.Router();
 const db = require("../../config/firestore");
 const axios = require('axios');
 var cors = require('cors');
-var app = express()
 
 router.get('/:id', cors(), (req, res) => {
 
@@ -84,8 +83,6 @@ router.get('/:id', cors(), (req, res) => {
         console.log(error.message)
     });
 });
-
-app.options('/:id/:newPrice', cors()); // enable pre-flight request for DELETE request
 
 router.put('/:id/:newPrice', cors(), (req, res) => {
 
