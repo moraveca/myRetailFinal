@@ -85,7 +85,7 @@ router.get('/:id', cors(), (req, res) => {
     });
 });
 
-app.options('/products/:id/:newPrice', cors()); // enable pre-flight request for DELETE request
+app.options('/:id/:newPrice', cors()); // enable pre-flight request for DELETE request
 
 router.put('/:id/:newPrice', cors(), (req, res) => {
 
