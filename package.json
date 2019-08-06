@@ -1,9 +1,10 @@
 {
-  "name": "myRetail",
+  "name": "myretail",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "heroku-postbuild": "cd client && yarn && yarn run build"
   },
   "license": "MIT",
   "dependencies": {
