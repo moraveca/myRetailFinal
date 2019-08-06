@@ -2,8 +2,10 @@ const express = require('express')
 const router = express.Router();
 const db = require("../../config/firestore");
 const axios = require('axios');
+var cors = require('cors');
 
-router.get('/:id', (req, res) => {
+
+router.get('/:id', cors(), (req, res) => {
 
     const data = {
         id: req.params.id,
@@ -83,7 +85,7 @@ router.get('/:id', (req, res) => {
     });
 });
 
-router.put('/:id/:newPrice', (req, res) => {
+router.put('/:id/:newPrice', cors(), (req, res) => {
 
     const docRef = db.collection("products").doc(req.params.id);
 
