@@ -3,7 +3,7 @@ const router = express.Router();
 const db = require("../../config/firestore");
 const axios = require('axios');
 var cors = require('cors');
-
+var app = express()
 
 router.get('/:id', cors(), (req, res) => {
 
