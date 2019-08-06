@@ -4,8 +4,11 @@ const db = require("../../config/firestore");
 const axios = require('axios');
 var cors = require('cors');
 
+
 router.get('/:id', cors(), (req, res) => {
 
+    // setting up a data variable that will be filled with data and sent
+    // back to user once all requests are completed.
     const data = {
         id: req.params.id,
         name: "productName",
@@ -18,7 +21,7 @@ router.get('/:id', cors(), (req, res) => {
             imageURL: ""
         }
     };
-
+    // the GET request to redsky for product information
     const getInfo = async () => {
         const response = await axios.get("http://redsky.target.com/v2/pdp/tcin/" + data.id + "?excludes=taxonomy,price,promotion,bulk_ship,rating_and_review_reviews,rating_and_review_statistics,question_answer_statistics")
 
@@ -40,7 +43,7 @@ router.get('/:id', cors(), (req, res) => {
 
         return console.log("Product Info retrieved.")
     };
-
+    // get request to Firestore for pricing information
     const getPricing = async () => {
         const docRef = db.collection("products").doc(data.id);
 
@@ -60,7 +63,7 @@ router.get('/:id', cors(), (req, res) => {
             console.log("Error getting document:", error);
         });
     }
-
+    // setting funciton with asynchronous calls in subsequent order
     const createData = async () => {
         const productInfo = await getInfo();
         console.log("data after productInfo: ", data);
@@ -70,7 +73,7 @@ router.get('/:id', cors(), (req, res) => {
 
         // console.log("Yay! ", productInfo)
     }
-
+    // calling the function and then sending back now filled variable "data"
     createData().then(() => {
         console.log("we get through the asyncs! ");
 
@@ -83,16 +86,20 @@ router.get('/:id', cors(), (req, res) => {
         console.log(error.message)
     });
 });
-
+// the PUT request to update pricing info
 router.put('/:id/:newPrice', cors(), (req, res) => {
 
     const docRef = db.collection("products").doc(req.params.id);
 
-    return docRef.update({
+    docRef.update({
         value: req.params.newPrice,
         lastPriceUpdate: Date.now()
     })
         .then( () => {
+            res.json({
+                "price_update": "successful",
+                "value": req.params.newPrice,
+            })
             console.log("Document successfully updated!");
         })
         .catch(error => {

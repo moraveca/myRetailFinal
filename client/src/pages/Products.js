@@ -52,11 +52,15 @@ class Products extends Component {
 
         API.updatePrice(this.state.id, this.state.newPrice)
             .then(res => {
+                console.log("res: ", res.data);
                 console.log("Successfully updated price!");
+                this.setState({
+                    value: res.data.value,
+                    modalIsOpen: false })
+
             });
 
-        this.setState({ modalIsOpen: false })
-        this.sendGetRequest();
+        // this.sendGetRequest();
 
 
     }
